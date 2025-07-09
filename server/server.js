@@ -21,12 +21,6 @@ await connectCloudinary()
 // Allow multiple origins
 const allowedOrigins = ['http://localhost:5173', 'https://grocerymart-eta.vercel.app/']
 
-app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
-
-// Middleware configuration
-app.use(express.json());
-app.use(cookieParser());
-// app.use(cors({origin: allowedOrigins, credentials: true}))
 app.use(cors({
   origin: function (origin, callback) {
     // allow requests with no origin (like mobile apps or curl)
@@ -38,6 +32,14 @@ app.use(cors({
   },
   credentials: true
 }));
+
+app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
+
+// Middleware configuration
+app.use(express.json());
+app.use(cookieParser());
+// app.use(cors({origin: allowedOrigins, credentials: true}))
+
 
 
 app.get('/', (req, res) => res.send("API is Working"));
